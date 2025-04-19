@@ -1,0 +1,45 @@
+server:
+  port: 8501
+
+# 配置数据库连接信息
+spring:
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://192.168.142.129:3306/db_spzx?characterEncoding=utf-8&useSSL=false&allowPublicKeyRetrieval=true
+    username: root
+    password: 123
+  # Redis的相关配置
+  data:
+    redis:
+      host: 192.168.142.129
+      password: 123321
+      port: 6379
+#  password: 1234
+
+mybatis-plus:
+  mapper-locations: classpath*:mapper/**/*.xml
+  type-aliases-package: com.atguigu.spzx.model.entity # 别名扫描包
+  configuration:
+    map-underscore-to-camel-case: true # 开启下划线和驼峰的映射
+    cache-enabled: false # 关闭二级缓存
+  global-config:
+    db-config:
+      update-strategy: not_null # 更新策略：只更新非空字段
+      id-type: auto
+logging:
+  level:
+    com.atguigu.manager: info
+
+minio:
+  endpoint: http://192.168.142.129:9000
+  access-key: 1sgD0O4NBcX7FaWZTiWV
+  secret-key: IjKsQq5md7hSRQaJqMfQ7TmstD0FvBkSGvAGKgYb
+  bucket:
+    files: spzx-bucket
+
+# 自定义配置
+spzx:
+  auth:
+    noAuthUrls:
+      - /admin/system/index/login
+      - /admin/system/index/generateValidateCode

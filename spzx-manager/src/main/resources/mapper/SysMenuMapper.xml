@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.atguigu.manager.mapper.SysMenuMapper">
+
+    <resultMap id="BaseMenuNodeResultMap" type="com.atguigu.spzx.model.entity.system.SysMenu">
+        <id property="id" column="id"/>
+        <result column="parent_id" property="parentId"/>
+        <result column="title" property="title" />
+        <result column="component" property="component" />
+        <result column="sortValue" property="sortValue" />
+        <result column="status" property="status" />
+        <result column="is_deleted" property="isDeleted" />
+        <result column="create_time" property="createTime" />
+        <result column="update_time" property="updateTime" />
+        <collection property="children" ofType="com.atguigu.spzx.model.entity.system.SysMenu" />
+    </resultMap>
+    <select id="findNodes" resultMap="BaseMenuNodeResultMap">
+        WITH RECURSIVE t1 AS (
+            SELECT * FROM sys_menu WHERE parent_id = '0' and is_deleted = 0
+            UNION ALL
+            SELECT sys_menu.* FROM sys_menu JOIN t1 ON t1.id = sys_menu.parent_id where sys_menu.is_deleted = 0
+        )
+        SELECT * FROM t1;
+    </select>
+    <select id="selectListByUserId" resultType="com.atguigu.spzx.model.entity.system.SysMenu">
+        with recursive t1 as (
+            select sys_menu.*
+            from sys_menu
+                     join sys_role_menu on sys_role_menu.menu_id = sys_menu.id
+                     join sys_user_role on sys_user_role.role_id = sys_role_menu.role_id
+            where sys_user_role.user_id = #{userId} and parent_id = '0'
+            union all
+            select sys_menu.*
+            from sys_menu
+                     join t1 on t1.id = sys_menu.parent_id
+                     join sys_role_menu on sys_role_menu.menu_id = sys_menu.id
+                     join sys_user_role on sys_user_role.role_id = sys_role_menu.role_id
+            where sys_user_role.user_id = #{userId}
+        )
+        select * from t1 where t1.is_deleted = 0;
+    </select>
+</mapper>
