@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.atguigu.manager.mapper.CategoryBrandMapper">
+    <select id="findByPage" resultType="com.atguigu.spzx.model.entity.product.CategoryBrand">
+
+        select
+            cb.id, cb.brand_id, cb.category_id, cb.create_time, cb.update_time,
+            c.name as category_name, b.name as brand_name, b.logo
+        from category_brand as cb
+                 left join category as c on cb.category_id = c.id
+                 left join brand as b on cb.brand_id = b.id
+        <where>
+            <if test="categoryBrandDto.categoryId != null">
+                and cb.category_id = #{categoryBrandDto.categoryId}
+            </if>
+            <if test="categoryBrandDto.brandId != null">
+                and cb.brand_id = #{categoryBrandDto.brandId}
+            </if>
+            and cb.is_deleted = 0
+        </where>
+        order by cb.id desc
+    </select>
+    <select id="findBrandByCategoryId" resultType="com.atguigu.spzx.model.entity.product.Brand"
+            parameterType="java.lang.Long">
+        select b.*
+        from category_brand cb
+                 left join brand b on cb.brand_id = b.id
+        where cb.category_id = #{categoryId} and cb.is_deleted = 0
+        order by cb.id desc
+    </select>
+</mapper>

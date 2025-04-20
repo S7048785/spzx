@@ -38,7 +38,7 @@ public class LoginAuthInterceptor implements HandlerInterceptor {
         // 获取token
         String token = request.getHeader("token");
         if ("http://localhost:8501/doc.html".equals(request.getHeader(HttpHeaders.REFERER))) {
-            token = "3f2f755398884b9c912b81029cdba93a";
+            token = "3e1028aa83b04acf94b7efd0c3b9224c";
         }
         if(StrUtil.isBlank(token)) {
             responseNoLoginInfo(response) ;

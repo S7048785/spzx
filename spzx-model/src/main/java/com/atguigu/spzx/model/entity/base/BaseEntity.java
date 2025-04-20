@@ -17,9 +17,11 @@ public class BaseEntity implements Serializable {
     private Long id;
 
     @Schema(description = "创建时间")
+    @TableField(fill = FieldFill.INSERT)
     private String createTime;
 
     @Schema(description = "修改时间")
+    @TableField(fill = FieldFill.INSERT_UPDATE)
     private String updateTime;
 
     @Schema(description = "是否删除")

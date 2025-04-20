@@ -2,9 +2,11 @@ package com.atguigu.spzx.model.dto.product;
 
 import com.atguigu.spzx.model.entity.base.BaseEntity;
 import io.swagger.v3.oas.annotations.media.Schema;
+import lombok.AllArgsConstructor;
 import lombok.Data;
 
 @Data
+@AllArgsConstructor
 @Schema(description = "商品搜索条件实体类")
 public class ProductDto extends BaseEntity {
 

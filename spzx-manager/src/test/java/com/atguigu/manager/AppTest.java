@@ -2,8 +2,13 @@ package com.atguigu.manager;
 
 import cn.hutool.core.date.DateUtil;
 import com.alibaba.excel.EasyExcel;
+import com.atguigu.manager.service.IProductService;
 import com.atguigu.manager.service.ISysMenuService;
+import com.atguigu.manager.service.impl.ProductServiceImpl;
+import com.atguigu.spzx.model.dto.product.ProductDto;
+import com.atguigu.spzx.model.entity.product.Product;
 import com.atguigu.spzx.model.vo.product.CategoryExcelVo;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,7 +22,7 @@ import java.util.List;
  * Unit test for simple App.
  */
 @Slf4j
-//@SpringBootTest
+@SpringBootTest
 public class AppTest {
 
 //	@Autowired
@@ -93,6 +98,14 @@ public class AppTest {
 	public void testDateUtil() {
 		String now = DateUtil.now();
 		System.out.println(now);
+	}
+
+	@Autowired
+	private IProductService productService ;
+	@Test
+	public void testService() {
+		Page<Product> byPage = productService.findByPage(1, 10, new ProductDto(1L, 1L, 2L, 3L));
+		log.info("{}", byPage);
 	}
 
 }

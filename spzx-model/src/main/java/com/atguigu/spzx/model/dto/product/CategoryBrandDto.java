@@ -2,6 +2,7 @@ package com.atguigu.spzx.model.dto.product;
 
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
+import org.apache.ibatis.annotations.Param;
 
 @Data
 @Schema(description = "搜索条件实体类")
